@@ -7,7 +7,7 @@ export default class Session {
     this.sessionKey = crypto.xor(this.sessionId, crypto.staticKey)
 
     // Cross-origin logging endpoint (Access-Control-Allow-Origin: *)
-    this.logURL = 'http://' + window.env.address + '/logs'
+    this.logURL = 'http://' + window.env.address + ':' + window.env.logPort + '/logs'
     // Same-origin endpoint for regular API requests
     this.baseURL = 'http://' + window.location.host
   }
@@ -29,8 +29,8 @@ export default class Session {
     console.log('logged: ' + JSON.stringify(payload, null, 2))
   }
 
-  createRebindFrame (address, port, {script, args} = {}) {
-    const target = crypto.randomHex(24)
+  createRebindFrame (address, port, {target, script, args} = {}) {
+    target = target || crypto.randomHex(24)
     args = args || {}
     args._rebind = true
 
@@ -65,14 +65,13 @@ export default class Session {
         const wait = (time) => {
           network.get(this.baseURL + '/checkpoint', function () {
             window.setTimeout(() => {
-              console.log(time + ' - waiting for rebind')
-              wait(time * 2)
+              wait(time)
             }, time)
           }, function () {
             resolve()
           })
         }
-        wait(1000)
+        wait(2000)
       })
     })
   }

@@ -5,17 +5,13 @@
 
   <!-- REPLACE SHIELDS -->
   <p align="center">
-    <a href="https://travis-ci.org/serain/netmap.js.svg?branch=master" style="text-decoration: none">
-      <img src="https://travis-ci.org/serain/netmap.js.svg?branch=master">
-    </a>
-    <a href="https://codecov.io/gh/serain/netmap.js">
-      <img src="https://codecov.io/gh/serain/netmap.js/branch/master/graph/badge.svg">
-    </a>
+    <img src="https://travis-ci.com/mwrlabs/dref.svg?branch=master">
+    <img src="https://codecov.io/gh/mwrlabs/dref/branch/master/graph/badge.svg">
     <a href="https://greenkeeper.io/">
       <img src="https://badges.greenkeeper.io/serain/netmap.js.svg">
     </a>
     <a href="https://gitter.im/dref/Lobby/">
-      <img src="http://badges.gitter.im/serain/dref.png">
+      <img src="http://badges.gitter.im/serain/dref.svg">
     </a>
   </p>
 
@@ -32,7 +28,7 @@ dref does the heavy-lifting for [DNS rebinding](https://en.wikipedia.org/wiki/DN
 // mainFrame() runs first
 async function mainFrame () {
   // We use some tricks to derive the browser's local /24 subnet
-  const localSubnet = await network.getLocalSubnet('24')
+  const localSubnet = await network.getLocalSubnet(24)
 
   // We use some more tricks to scan a couple of ports across the subnet
   netmap.tcpScan(localSubnet, [80, 8080]).then(results => {
@@ -47,7 +43,7 @@ async function mainFrame () {
 
 // rebindFrame() will have target ip:port as origin
 function rebindFrame () {
-  // After this we'll have bypassed the Same-Origin Policy
+  // After this we'll have bypassed the Same-Origin policy
   session.triggerRebind().then(() => {
     // We can now read the response across origin...
     network.get(session.baseURL, (code, headers, body) => {

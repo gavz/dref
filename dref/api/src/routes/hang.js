@@ -3,10 +3,9 @@ import { Router } from 'express'
 var router = Router()
 
 router.get('/', function (req, res, next) {
-  res.set('Connection', 'close')
-  res.send(JSON.stringify({
-    checkpoint: true
-  }))
+  res.status(200).set({
+    'Content-Length': '1'
+  }).send()
 })
 
 export default router

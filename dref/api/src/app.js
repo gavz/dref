@@ -36,7 +36,7 @@ for (let i = 0; i < global.config.targets.length; i++) {
     args: global.config.targets[i].args
   }
 
-  Target.update({_id: global.config.targets[i].id}, doc, {upsert: true}, function () {
+  Target.update({target: global.config.targets[i].target}, doc, {upsert: true}, function () {
     console.log('dref: Configured target\n' + JSON.stringify(doc, null, 4))
   })
 }
@@ -47,10 +47,10 @@ for (let i = 0; i < global.config.targets.length; i++) {
 import indexRouter from './routes/index'
 import logsRouter from './routes/logs'
 import scriptsRouter from './routes/scripts'
-import hangRouter from './routes/hang'
 import aRecordsRouter from './routes/arecords'
 import targetsRouter from './routes/targets'
 import checkpointRouter from './routes/checkpoint'
+import hangRouter from './routes/hang'
 
 /**
  * Set up app
@@ -64,7 +64,7 @@ app.options('/logs', cors())
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
-app.set('view engine', 'jade')
+app.set('view engine', 'pug')
 
 app.use(logger('dev'))
 app.use(express.json())
@@ -74,10 +74,10 @@ app.use(express.urlencoded({ extended: false }))
 app.use('/', indexRouter)
 app.use('/logs', logsRouter)
 app.use('/scripts', scriptsRouter)
-app.use('/hang', hangRouter)
 app.use('/arecords', aRecordsRouter)
 app.use('/targets', targetsRouter)
 app.use('/checkpoint', checkpointRouter)
+app.use('/hang', hangRouter)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
